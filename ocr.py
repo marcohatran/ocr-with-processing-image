@@ -8,6 +8,7 @@ from imutils.object_detection import non_max_suppression
 from collections import defaultdict, deque
 from Levenshtein  import distance
 
+pytesseract.pytesseract.tesseract_cmd = r'Tesseract-OCR\\tesseract.exe'
 
 
 def main(image, threshold, text_finds):
