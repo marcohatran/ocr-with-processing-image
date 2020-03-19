@@ -8,7 +8,7 @@ from imutils.object_detection import non_max_suppression
 from collections import defaultdict, deque
 from Levenshtein  import distance
 
-pytesseract.pytesseract.tesseract_cmd = r'Tesseract-OCR\\tesseract.exe'
+#pytesseract.pytesseract.tesseract_cmd = r'Tesseract-OCR\\tesseract.exe'
 
 
 def main(image, threshold, text_finds):
@@ -65,10 +65,10 @@ def main(image, threshold, text_finds):
 		w_,h_ = h_,w_
 		ang += 90
 
-	## Find rotated matrix, do rotation
+	## Find rotated matrix, do rotation đoạn này có thể bỏ đi nếu ko muốn xoay ảnh
 	M = cv2.getRotationMatrix2D((cx,cy), ang, 1.0)	
 	image_rotation = cv2.warpAffine(masked_img, M, (img.shape[1], img.shape[0]))
-	
+	## bỏ đi nếu ko cần xoay ảnh
 	rect_kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (6, 3))
 	image_text = cv2.dilate(image_rotation, rect_kernel, iterations = 1)
 
@@ -105,7 +105,7 @@ def main(image, threshold, text_finds):
 					index_choices[index_find] = index
 					min_scores[index_find] = score
 		
-		for index, value in enumerate(index_choices):
+		for index, value in enumerate(index_choices):       #ocr with index  bỏ đoạn này đi nếu ko tìm theo index key.
 			x, y, w, h = result[value]['position']
 			image_crop = img[y:y+h, x:x+w]			
 			text = pytesseract.image_to_string(image_crop, lang='vietnamese')
